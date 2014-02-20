@@ -10,7 +10,9 @@ To use this library you should have a server application that handles authentica
 
  * Install the library
 
-        bower install authenticateJS
+```bash
+bower install authenticateJS
+```
 
  * load the library
 

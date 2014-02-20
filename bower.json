@@ -1,0 +1,19 @@
+{
+  "name": "authenticatejs",
+  "version": "0.0.1",
+  "authors": [
+    "Riad Benguella <benguella@gmail.com>"
+  ],
+  "description": "A simple security library for angularjs",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "src",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular": "*",
+    "angular-route": "*"
+  }
+}

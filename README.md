@@ -61,6 +61,6 @@ Usage
      * a true value means, you have to be loggedin to access this route,
      * other custom string can be used to indicate that a user role is required to access this route (the string represent the role that have to be found in user.roles)
 
-* you can call AngularJS.logout(); to loggout
+* you can call AuthenticateJS.logout(); to loggout
 
-* you cas use AngularJS.getLoggedinUser() to get the current loggedin user
+* you cas use AuthenticateJS.getLoggedinUser() to get the current loggedin user

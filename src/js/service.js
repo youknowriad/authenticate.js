@@ -17,8 +17,8 @@ angular.module('authenticate.js').provider('AuthenticateJS', function () {
 
     this.$get = ['$http', '$q', function ($http, $q) {
 
-        var user,
-            lastUser;
+        var user = null,
+            lastUser = null;
 
         return {
 

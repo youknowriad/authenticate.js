@@ -4,6 +4,7 @@
   "authors": [
     "Riad Benguella <benguella@gmail.com>"
   ],
+  "main" : "./build/authenticate.js",
   "description": "A simple security library for angularjs",
   "license": "MIT",
   "ignore": [

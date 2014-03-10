@@ -6,6 +6,7 @@
   ],
   "description": "A simple security library for angularjs",
   "license": "MIT",
+  "main": "build/authenticate.js",
   "ignore": [
     "**/.*",
     "src",

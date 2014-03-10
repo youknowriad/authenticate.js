@@ -124,7 +124,6 @@ angular.module('authenticate.js').provider('AuthenticateJS', function () {
                 var defer = $q.defer();
                 $http.get(config.host + config.logoutUrl).success(function () {
                     user = null;
-                    $location.path(config.logoutPage);
                     defer.resolve();
                 }).error(function () {
                     defer.reject();

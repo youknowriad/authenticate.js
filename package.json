@@ -1,6 +1,6 @@
 {
     "name": "authenticatejs",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "devDependencies": {
         "grunt": "~0.4.1",
         "grunt-contrib-concat": "*",

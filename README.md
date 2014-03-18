@@ -22,7 +22,7 @@ bower install authenticateJS
 <script src="js/authenticate.js"></script>
 ```
 
- * add it to your depandancies
+ * add it to your dependencies
 
 ```javascript
 angular.module('myapp', ['authenticate.js']);

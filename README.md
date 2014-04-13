@@ -21,6 +21,7 @@ bower install authenticateJS
 <script src="js/angular-route.min.js"></script>
 <script src="js/authenticate.js"></script>
 ```
+ * copy the library partials to your public directory to the folder partials/authenticateJS
 
  * add it to your dependencies
 
@@ -40,8 +41,8 @@ angular.module('myapp').config(['AuthenticateJSProvider', function (Authenticate
         loggedinUrl: 'auth/loggedin',  // api to get the user profile and roles
 
         unauthorizedPage: '/unauthorized',  // url (frontend) of the unauthorized page
-        targetPage: '/',                    // url (frontend) of the target page on login success
-        loginPage: '/dashborad'             // url (frontend) of the login page
+        targetPage: '/dashboard',           // url (frontend) of the target page on login success
+        loginPage: '/login'                 // url (frontend) of the login page
     });
 
 }]);
@@ -54,6 +55,11 @@ Usage
 
 ```html
 <div authenticate-login-form></div>
+```
+You can override the default login form template like this
+
+```html
+<div authenticate-login-form template-url="mypartial.html"></div>
 ```
 
  * add a security attribute to your routes

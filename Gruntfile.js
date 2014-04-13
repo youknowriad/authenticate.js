@@ -21,12 +21,22 @@ module.exports = function(grunt) {
                 ],
                 dest: 'build/authenticate.js'
             }
+        },
+
+        // Copy Files
+        copy: {
+          lib: {
+            files: [
+              {expand: true, cwd: 'src/partials', src: ['**/*.html'], dest: 'build/partials'}
+            ]
+          }
         }
 
     });
 
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
-    grunt.registerTask('default', ['jshint', 'concat']);
+    grunt.registerTask('default', ['jshint', 'concat', 'copy']);
 };

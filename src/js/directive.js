@@ -1,13 +1,24 @@
 angular.module('authenticate.js').directive('authenticateLoginForm', function () {
   return {
     scope: true,
-    controller: ['$scope', '$location', 'AuthenticateJS', function ($scope, $location, AuthenticateJS) {
+    controller: ['$scope', '$location', 'AuthenticateJS', 'Referer',
+      function ($scope, $location, AuthenticateJS, Referer) {
       $scope.error    = false;
       $scope.ready  = false;
 
+      var redirect = function () {
+        if (Referer.has()) {
+          var url = Referer.get();
+          Referer.reset();
+          $location.path(url);
+        } else {
+          $location.path(AuthenticateJS.targetPage);
+        }
+      };
+
       // Check Login
       AuthenticateJS.check().then(function() {
-        $location.path(AuthenticateJS.targetPage);
+        redirect();
       }, function() {
         $scope.ready = true;
       });
@@ -18,7 +29,7 @@ angular.module('authenticate.js').directive('authenticateLoginForm', function ()
           $scope.loading  = true;
           AuthenticateJS.login($scope.username, $scope.password).then(function() {
             $scope.loading  = false;
-            $location.path(AuthenticateJS.targetPage);
+            redirect();
           }, function() {
             $scope.loading  = false;
             $scope.error = true;

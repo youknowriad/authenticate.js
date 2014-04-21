@@ -2,12 +2,14 @@
 angular.module('authenticate.js', ['ngRoute']);
 
 // Handling Authorisations
-angular.module('authenticate.js').run(['$rootScope', '$location', 'AuthenticateJS', function ($rootScope, $location, AuthenticateJS) {
+angular.module('authenticate.js').run(['$rootScope', '$location', 'AuthenticateJS', 'Referer',
+  function ($rootScope, $location, AuthenticateJS, Referer) {
   $rootScope.$on("$routeChangeStart", function (event, next) {
     if (!AuthenticateJS.authorize(next.security)) {
       if (AuthenticateJS.isLoggedIn()) {
         $location.path(AuthenticateJS.unauthorizedPage);
       } else {
+        Referer.set($location.url());
         $location.path(AuthenticateJS.loginPage);
       }
     }
@@ -17,13 +19,24 @@ angular.module('authenticate.js').run(['$rootScope', '$location', 'AuthenticateJ
 angular.module('authenticate.js').directive('authenticateLoginForm', function () {
   return {
     scope: true,
-    controller: ['$scope', '$location', 'AuthenticateJS', function ($scope, $location, AuthenticateJS) {
+    controller: ['$scope', '$location', 'AuthenticateJS', 'Referer',
+      function ($scope, $location, AuthenticateJS, Referer) {
       $scope.error    = false;
       $scope.ready  = false;
 
+      var redirect = function () {
+        if (Referer.has()) {
+          var url = Referer.get();
+          Referer.reset();
+          $location.path(url);
+        } else {
+          $location.path(AuthenticateJS.targetPage);
+        }
+      };
+
       // Check Login
       AuthenticateJS.check().then(function() {
-        $location.path(AuthenticateJS.targetPage);
+        redirect();
       }, function() {
         $scope.ready = true;
       });
@@ -34,7 +47,7 @@ angular.module('authenticate.js').directive('authenticateLoginForm', function ()
           $scope.loading  = true;
           AuthenticateJS.login($scope.username, $scope.password).then(function() {
             $scope.loading  = false;
-            $location.path(AuthenticateJS.targetPage);
+            redirect();
           }, function() {
             $scope.loading  = false;
             $scope.error = true;
@@ -47,6 +60,29 @@ angular.module('authenticate.js').directive('authenticateLoginForm', function ()
       return attr.templateUrl ? attr.templateUrl : 'partials/authenticateJS/login.html';
     }
   };
+});
+angular.module('authenticate.js').factory('Referer', function() {
+
+  return {
+    url: false,
+
+    has: function() {
+      return this.url !== false;
+    },
+
+    reset: function () {
+      this.url = false;
+    },
+
+    set: function (url) {
+      this.url = url;
+    },
+
+    get: function () {
+      return this.url;
+    }
+  };
+
 });
 angular.module('authenticate.js').provider('AuthenticateJS', function () {
 

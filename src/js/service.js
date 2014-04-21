@@ -15,10 +15,10 @@ angular.module('authenticate.js').provider('AuthenticateJS', function () {
     config = configuration;
   };
 
-  this.$get = ['$http', '$q', function ($http, $q) {
+  this.$get = ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
 
     var user = null,
-      lastUser = null;
+        lastUser = null;
 
     return {
 
@@ -58,6 +58,7 @@ angular.module('authenticate.js').provider('AuthenticateJS', function () {
             user = data;
             lastUser = data;
             defer.resolve(user);
+            $rootScope.$broadcast('AuthenticateJS.login', user);
           }).error(function () {
             defer.reject();
           });
@@ -70,6 +71,7 @@ angular.module('authenticate.js').provider('AuthenticateJS', function () {
         $http.get(config.host + config.logoutUrl).success(function () {
           user = null;
           defer.resolve();
+          $rootScope.$broadcast('AuthenticateJS.logout');
         }).error(function () {
             defer.reject();
           });
@@ -83,10 +85,17 @@ angular.module('authenticate.js').provider('AuthenticateJS', function () {
           url: config.host + config.loggedinUrl,
           method: 'GET'
         }).success(function (data) {
+            var previous = user;
             user = data;
             lastUser = data;
             defer.resolve(user);
+            if (!angular.equals(previous, user)) {
+              $rootScope.$broadcast('AuthenticateJS.login', user);
+            }
           }).error(function () {
+            if (user !== null) {
+              $rootScope.$broadcast('AuthenticateJS.logout');
+            }
             user = null;
             defer.reject();
           });
